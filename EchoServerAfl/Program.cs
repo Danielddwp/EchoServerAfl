@@ -26,22 +26,22 @@ namespace AfleveringsOpgave5
 
         static void Main(string[] args)
         {
-            //Opret server
+            
             IPAddress ip = IPAddress.Parse("192.168.24.241");
-            //Opret adresse eller port
+            
             TcpListener serverSocket = new TcpListener(ip, 4646);
-            //starter server
+            
             serverSocket.Start();
-            Console.WriteLine("Server Started");
+            Console.WriteLine("Start");
 
             do
             {
                 Task.Run(() =>
                 {
-                    //Venter på connection før den aktiverer
+                    
                     TcpClient connectionSocket = serverSocket.AcceptTcpClient();
-                    Console.WriteLine("Server activated & Connected");
-                    //kalder metoden DoClient
+                    Console.WriteLine("Server startet");
+                   
                     DoClient(connectionSocket);
 
                 });
@@ -57,16 +57,16 @@ namespace AfleveringsOpgave5
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true;
 
-            string message = sr.ReadLine();
+            string besked = sr.ReadLine();
             string answer = "";
 
-            //string answer = "";
-
-            while (message != null && message != "")
+            
+            //if ()
+            while (besked != null && besked != "")
             {
 
-                string[] messageArray = message.Split(' ');
-                string param = message.Substring(message.IndexOf(' ') + 1);
+                string[] messageArray = besked.Split(' ');
+                string param = besked.Substring(besked.IndexOf(' ') + 1);
                 string command = messageArray[0];
 
                 switch (command)
@@ -76,7 +76,7 @@ namespace AfleveringsOpgave5
                         sw.WriteLine(JsonConvert.SerializeObject(bøger));
                         break;
                     case "Get":
-                        sw.WriteLine("Get request received -- isbn" + messageArray[1] + "requested");
+                        sw.WriteLine( messageArray[1]);
                         sw.WriteLine(JsonConvert.SerializeObject(bøger.Find(id => id.Isbn13 == param)));
                         break;
                     case "Save":
@@ -85,11 +85,11 @@ namespace AfleveringsOpgave5
                         bøger.Add(saveBook);
                         break;
                     default:
-                        sw.WriteLine("Fejl i søgning!");
+                        sw.WriteLine("Fejlsøgning");
                         break;
                 }
 
-                message = sr.ReadLine();
+                besked = sr.ReadLine();
             }
 
 
