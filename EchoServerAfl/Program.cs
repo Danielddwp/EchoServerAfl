@@ -27,9 +27,9 @@ namespace AfleveringsOpgave5
         static void Main(string[] args)
         {
             
-            IPAddress ip = IPAddress.Parse("192.168.24.241");
+            IPAddress ip = IPAddress.Parse("172.17.238.49");
             
-            TcpListener serverSocket = new TcpListener(ip, 4646);
+            TcpListener serverSocket = new TcpListener(ip, 8888);
             
             serverSocket.Start();
             Console.WriteLine("Start");
@@ -72,18 +72,24 @@ namespace AfleveringsOpgave5
                 switch (command)
                 {
                     case "GetAll":
-                        sw.WriteLine("Get all received");
+                        sw.WriteLine("Get all udført");
                         sw.WriteLine(JsonConvert.SerializeObject(bøger));
                         break;
+
+
                     case "Get":
                         sw.WriteLine( messageArray[1]);
                         sw.WriteLine(JsonConvert.SerializeObject(bøger.Find(id => id.Isbn13 == param)));
                         break;
+
+
                     case "Save":
-                        sw.WriteLine("Save received");
+                        sw.WriteLine("Save modtaget");
                         Bog saveBook = JsonConvert.DeserializeObject<Bog>(param);
                         bøger.Add(saveBook);
                         break;
+
+
                     default:
                         sw.WriteLine("Fejlsøgning");
                         break;
